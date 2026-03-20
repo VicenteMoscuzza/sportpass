@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -22,11 +18,12 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.nombre = this.authService.getNombre() || 'Usuario';
+    this.nombre = this.authService.getNombre();
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.authService.logout().subscribe({
+      next: () => this.router.navigate(['/auth/login'])
+    });
   }
 }

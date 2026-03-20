@@ -1,37 +1,72 @@
-<div class="auth-container">
-    <mat-card class="auth-card">
-      <mat-card-header>
-        <mat-card-title>🎟️ SportPass</mat-card-title>
-        <mat-card-subtitle>Creá tu cuenta</mat-card-subtitle>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="nombre" placeholder="Tu nombre">
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="email" placeholder="tu@email.com">
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Contraseña</mat-label>
-            <input matInput formControlName="password" type="password">
-          </mat-form-field>
-  
-          <p class="error" *ngIf="error">{{ error }}</p>
-  
-          <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="loading">
-            {{ loading ? 'Registrando...' : 'Registrarse' }}
-          </button>
-        </form>
-      </mat-card-content>
-  
-      <mat-card-actions>
-        <p>¿Ya tenés cuenta? <a routerLink="/auth/login">Iniciá sesión</a></p>
-      </mat-card-actions>
-    </mat-card>
+<div class="auth-wrap">
+
+  <div class="brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-name">SportPass</span>
   </div>
+
+  <div class="auth-card">
+    <div class="card-header">
+      <h1>Crear cuenta</h1>
+      <p>Completá tus datos para registrarte</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="field">
+        <label>Nombre</label>
+        <input
+          formControlName="nombre"
+          type="text"
+          placeholder="Tu nombre"
+          [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched">
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          formControlName="email"
+          type="email"
+          placeholder="tu@email.com"
+          [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+      </div>
+
+      <div class="field">
+        <label>Contraseña</label>
+        <input
+          formControlName="password"
+          type="password"
+          placeholder="Mínimo 6 caracteres"
+          [class.invalid]="form.get('password')?.invalid && form.get('password')?.touched">
+      </div>
+
+      <p class="error-msg" *ngIf="error">{{ error }}</p>
+
+      <div class="field">
+        <label>Confirmar contraseña</label>
+        <input
+          formControlName="confirmPassword"
+          type="password"
+          placeholder="Repetí tu contraseña"
+          [class.invalid]="form.hasError('passwordsMismatch') && form.get('confirmPassword')?.touched">
+        <span class="field-error" *ngIf="form.hasError('passwordsMismatch') && form.get('confirmPassword')?.touched">
+          Las contraseñas no coinciden
+        </span>
+      </div>
+      
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        <span *ngIf="!loading">Registrarse</span>
+        <span *ngIf="loading" class="loading-dots">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+    </form>
+
+    <div class="card-footer">
+      ¿Ya tenés cuenta?
+      <a routerLink="/auth/login">Iniciá sesión</a>
+    </div>
+  </div>
+
+</div>

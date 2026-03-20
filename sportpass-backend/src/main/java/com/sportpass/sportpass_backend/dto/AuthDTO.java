@@ -31,4 +31,17 @@ public class AuthDTO {
             this.rol = rol;
         }
     }
+
+    @Data
+    public static class UserInfoResponse {
+        private String email;
+        private String nombre;
+        private String rol;
+
+        public UserInfoResponse(String email, String nombre, String rol) {
+            this.email = email;
+            this.nombre = nombre;
+            this.rol = rol;
+        }
+    }
 }

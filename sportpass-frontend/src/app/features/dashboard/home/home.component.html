@@ -1,11 +1,58 @@
-<mat-toolbar color="primary">
-    <span>🎟️ SportPass</span>
-    <span style="flex: 1"></span>
-    <span>Hola, {{ nombre }}</span>
-    <button mat-button (click)="logout()" style="margin-left: 16px">Cerrar sesión</button>
-  </mat-toolbar>
-  
-  <div style="padding: 32px; text-align: center">
-    <h2>¡Bienvenido a SportPass! 🏟️</h2>
-    <p>Próximamente podrás ver y comprar entradas para eventos deportivos.</p>
+<div class="layout">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-name">SportPass</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user">{{ nombre }}</span>
+      <button class="btn-logout" (click)="logout()">Salir</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-label">Liga Nacional · Temporada 2026</p>
+    <h1 class="hero-title">Próximos Eventos</h1>
   </div>
+
+  <!-- Loading -->
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Eventos por fecha -->
+  <div class="eventos-wrap" *ngIf="!loading">
+    <div class="fecha-grupo" *ngFor="let grupo of eventosPorFecha">
+
+      <div class="fecha-header">
+        <span class="fecha-label">{{ grupo.fecha }}</span>
+        <div class="fecha-line"></div>
+      </div>
+
+      <div class="eventos-lista">
+        <div class="evento-row" *ngFor="let evento of grupo.eventos">
+
+          <div class="evento-hora">{{ formatHora(evento.fecha) }}</div>
+
+          <div class="evento-info">
+            <span class="evento-nombre">{{ evento.nombre }}</span>
+            <span class="evento-detalle">
+              {{ evento.estadioNombre }} · {{ evento.estadioCiudad }}
+            </span>
+          </div>
+
+          <div class="evento-right">
+            <span class="evento-precio">Desde {{ formatPrecio(evento.precioDesde) }}</span>
+            <button class="btn-ver">Ver entradas →</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

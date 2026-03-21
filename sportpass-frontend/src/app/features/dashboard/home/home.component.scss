@@ -1,0 +1,224 @@
+.layout {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  // Navbar
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+  
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+    .brand-icon { font-size: 20px; color: var(--accent); }
+    .brand-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .nav-user {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  
+  .btn-logout {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  
+    &:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+  }
+  
+  // Hero
+  .hero {
+    padding: 64px 48px 48px;
+    max-width: 100%;
+    position: relative;
+  
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(232, 255, 71, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  }
+  
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  
+  .hero-title {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--text);
+  }
+  
+  // Loading
+  .loading-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 80px;
+  }
+  
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  // Eventos
+  .eventos-wrap {
+    padding: 0 48px 80px;
+    max-width: 100%;
+  }
+  
+  .fecha-grupo {
+    margin-bottom: 48px;
+  }
+  
+  .fecha-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .fecha-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  
+  .fecha-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  
+  .eventos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .evento-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+  
+    &:hover {
+      border-color: #333;
+      background: #161616;
+    }
+  }
+  
+  .evento-hora {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    min-width: 48px;
+  }
+  
+  .evento-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .evento-nombre {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  
+  .evento-detalle {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  
+  .evento-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  
+  .evento-precio {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+  
+  .btn-ver {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+  
+    &:hover { color: var(--text); }
+  }
+  
+  @media (max-width: 600px) {
+    .navbar, .hero, .eventos-wrap { padding-left: 20px; padding-right: 20px; }
+    .evento-row { flex-wrap: wrap; }
+    .evento-right { align-items: flex-start; }
+  }

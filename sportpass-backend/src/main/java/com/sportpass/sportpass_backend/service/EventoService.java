@@ -44,4 +44,38 @@ public class EventoService {
 
         return dto;
     }
+    public EventoDTO.EventoDetalle getEventoById(Long id) {
+        Evento evento = eventoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+
+        EventoDTO.EventoDetalle dto = new EventoDTO.EventoDetalle();
+        dto.setId(evento.getId());
+        dto.setNombre(evento.getNombre());
+        dto.setDescripcion(evento.getDescripcion());
+        dto.setFecha(evento.getFecha());
+        dto.setEstado(evento.getEstado().name());
+        dto.setEstadioNombre(evento.getEstadio().getNombre());
+        dto.setEstadioCiudad(evento.getEstadio().getCiudad());
+        dto.setEstadioDireccion(evento.getEstadio().getDireccion());
+
+        List<EventoDTO.EventoDetalle.ZonaInfo> zonas = eventoZonaRepository
+                .findByEventoId(id)
+                .stream()
+                .map(ez -> {
+                    EventoDTO.EventoDetalle.ZonaInfo zona = new EventoDTO.EventoDetalle.ZonaInfo();
+                    zona.setId(ez.getId());
+                    zona.setZonaId(ez.getZona().getId());
+                    zona.setZonaNombre(ez.getZona().getNombre());
+                    zona.setPrecio(ez.getPrecio().doubleValue());
+                    zona.setCapacidadDisponible(ez.getCapacidadDisponible());
+                    zona.setEsGeneral(!ez.getZona().getNombre().toLowerCase().contains("vip") &&
+                                    !ez.getZona().getNombre().toLowerCase().contains("palco"));
+                    return zona;
+                })
+                .toList();
+
+        dto.setZonas(zonas);
+        return dto;
+    }
 }
+

@@ -1,0 +1,61 @@
+<div class="layout">
+
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-name">SportPass</span>
+      </div>
+      <button class="btn-back" (click)="volver()">← Volver</button>
+    </nav>
+  
+    <div class="loading-wrap" *ngIf="loading">
+      <div class="spinner"></div>
+    </div>
+  
+    <div class="content" *ngIf="!loading && evento">
+  
+      <!-- Header del evento -->
+      <div class="evento-header">
+        <p class="evento-fecha-label">
+          {{ formatFecha(evento.fecha) }} · {{ formatHora(evento.fecha) }}hs
+        </p>
+        <h1 class="evento-titulo">{{ evento.nombre }}</h1>
+        <p class="evento-descripcion">{{ evento.descripcion }}</p>
+  
+        <div class="estadio-info">
+          <span class="estadio-icon">📍</span>
+          <div>
+            <span class="estadio-nombre">{{ evento.estadioNombre }}</span>
+            <span class="estadio-detalle">{{ evento.estadioDireccion }} · {{ evento.estadioCiudad }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="divider"></div>
+  
+      <!-- Zonas -->
+      <div class="zonas-section">
+        <h2 class="section-title">Zonas disponibles</h2>
+  
+        <div class="zonas-grid">
+          <div class="zona-card" *ngFor="let zona of evento.zonas"
+               [class.vip]="!zona.esGeneral">
+  
+            <div class="zona-top">
+              <span class="zona-nombre">{{ zona.zonaNombre }}</span>
+              <span class="zona-badge" *ngIf="!zona.esGeneral">VIP</span>
+              <span class="zona-badge general" *ngIf="zona.esGeneral">General</span>
+            </div>
+  
+            <div class="zona-precio">{{ formatPrecio(zona.precio) }}</div>
+  
+            <div class="zona-disponible">
+              {{ zona.capacidadDisponible | number }} lugares disponibles
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

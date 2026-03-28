@@ -12,5 +12,10 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('./features/dashboard/dashboard-module').then(m => m.DashboardModule),
     canActivate: [authGuard]
+  },
+  {
+    path: 'eventos',
+    loadChildren: () => import('./features/eventos/eventos-module').then(m => m.EventosModule),
+    canActivate: [authGuard]
   }
 ];

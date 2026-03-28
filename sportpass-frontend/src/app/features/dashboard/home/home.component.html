@@ -33,7 +33,7 @@
       </div>
 
       <div class="eventos-lista">
-        <div class="evento-row" *ngFor="let evento of grupo.eventos">
+        <div class="evento-row" *ngFor="let evento of grupo.eventos" (click)="verEvento(evento.id)">
 
           <div class="evento-hora">{{ formatHora(evento.fecha) }}</div>
 

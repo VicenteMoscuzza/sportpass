@@ -75,4 +75,8 @@ export class HomeComponent implements OnInit {
       next: () => this.router.navigate(['/auth/login'])
     });
   }
+  
+  verEvento(id: number): void {
+    this.router.navigate(['/eventos', id]);
+  }
 }

@@ -18,4 +18,9 @@ public class EventoController {
     public ResponseEntity<List<EventoDTO.EventoResumen>> getProximosEventos() {
         return ResponseEntity.ok(eventoService.getProximosEventos());
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<EventoDTO.EventoDetalle> getEventoById(@PathVariable Long id) {
+        return ResponseEntity.ok(eventoService.getEventoById(id));
+    }
 }

@@ -39,4 +39,12 @@ public class EventoDTO {
             private Boolean esGeneral;
         }
     }
+
+    @Data
+    public static class AsientoInfo {
+        private Long id;
+        private String fila;
+        private Integer numero;
+        private Boolean ocupado;
+    }
 }

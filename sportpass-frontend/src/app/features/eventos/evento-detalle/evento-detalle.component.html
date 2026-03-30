@@ -1,61 +1,108 @@
 <div class="layout">
 
-    <nav class="navbar">
-      <div class="nav-brand">
-        <span class="brand-icon">⬡</span>
-        <span class="brand-name">SportPass</span>
-      </div>
-      <button class="btn-back" (click)="volver()">← Volver</button>
-    </nav>
-  
-    <div class="loading-wrap" *ngIf="loading">
-      <div class="spinner"></div>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-name">SportPass</span>
     </div>
-  
-    <div class="content" *ngIf="!loading && evento">
-  
-      <!-- Header del evento -->
-      <div class="evento-header">
-        <p class="evento-fecha-label">
-          {{ formatFecha(evento.fecha) }} · {{ formatHora(evento.fecha) }}hs
-        </p>
-        <h1 class="evento-titulo">{{ evento.nombre }}</h1>
-        <p class="evento-descripcion">{{ evento.descripcion }}</p>
-  
-        <div class="estadio-info">
-          <span class="estadio-icon">📍</span>
-          <div>
-            <span class="estadio-nombre">{{ evento.estadioNombre }}</span>
-            <span class="estadio-detalle">{{ evento.estadioDireccion }} · {{ evento.estadioCiudad }}</span>
-          </div>
-        </div>
-      </div>
-  
-      <div class="divider"></div>
-  
-      <!-- Zonas -->
-      <div class="zonas-section">
-        <h2 class="section-title">Zonas disponibles</h2>
-  
-        <div class="zonas-grid">
-          <div class="zona-card" *ngFor="let zona of evento.zonas"
-               [class.vip]="!zona.esGeneral">
-  
-            <div class="zona-top">
-              <span class="zona-nombre">{{ zona.zonaNombre }}</span>
-              <span class="zona-badge" *ngIf="!zona.esGeneral">VIP</span>
-              <span class="zona-badge general" *ngIf="zona.esGeneral">General</span>
-            </div>
-  
-            <div class="zona-precio">{{ formatPrecio(zona.precio) }}</div>
-  
-            <div class="zona-disponible">
-              {{ zona.capacidadDisponible | number }} lugares disponibles
-            </div>
-  
-          </div>
-        </div>
-      </div>
-  
-    </div>
+    <button class="btn-back" (click)="volver()">← Volver</button>
+  </nav>
+
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spinner"></div>
   </div>
+
+  <div class="content" *ngIf="!loading && evento">
+
+    <div class="evento-header">
+      <p class="evento-fecha-label">
+        {{ formatFecha(evento.fecha) }} · {{ formatHora(evento.fecha) }}hs
+      </p>
+      <h1 class="evento-titulo">{{ evento.nombre }}</h1>
+      <p class="evento-descripcion">{{ evento.descripcion }}</p>
+      <div class="estadio-info">
+        <span class="estadio-icon">📍</span>
+        <div>
+          <span class="estadio-nombre">{{ evento.estadioNombre }}</span>
+          <span class="estadio-detalle">{{ evento.estadioDireccion }} · {{ evento.estadioCiudad }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Zonas -->
+    <div class="zonas-section">
+      <h2 class="section-title">Seleccioná una zona</h2>
+      <div class="zonas-grid">
+        <div class="zona-card"
+             *ngFor="let zona of evento.zonas"
+             [class.vip]="!zona.esGeneral"
+             [class.seleccionada]="zonaSeleccionada?.id === zona.id"
+             (click)="seleccionarZona(zona)">
+          <div class="zona-top">
+            <span class="zona-nombre">{{ zona.zonaNombre }}</span>
+            <span class="zona-badge" *ngIf="!zona.esGeneral">VIP</span>
+            <span class="zona-badge general" *ngIf="zona.esGeneral">General</span>
+          </div>
+          <div class="zona-precio">{{ formatPrecio(zona.precio) }}</div>
+          <div class="zona-disponible">{{ zona.capacidadDisponible | number }} disponibles</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selector cantidad general -->
+    <div class="selector-section" *ngIf="zonaSeleccionada?.esGeneral">
+      <div class="divider"></div>
+      <h2 class="section-title">Cantidad de entradas</h2>
+      <div class="cantidad-wrap">
+        <button class="btn-cantidad" (click)="decrementar()">−</button>
+        <span class="cantidad-num">{{ cantidadGeneral }}</span>
+        <button class="btn-cantidad" (click)="incrementar()">+</button>
+        <span class="cantidad-total">
+          = {{ formatPrecio(zonaSeleccionada!.precio * cantidadGeneral) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Selector asientos VIP -->
+    <div class="selector-section" *ngIf="zonaSeleccionada && !zonaSeleccionada.esGeneral">
+      <div class="divider"></div>
+      <h2 class="section-title">Elegí tu asiento</h2>
+
+      <div class="loading-wrap" *ngIf="loadingAsientos">
+        <div class="spinner"></div>
+      </div>
+
+      <div class="palcos-wrap" *ngIf="!loadingAsientos">
+        <div class="palco-grupo" *ngFor="let grupo of agruparPorPalco(asientos)">
+          <span class="palco-label">{{ grupo.palco }}</span>
+          <div class="asientos-fila">
+            <div class="asiento"
+                 *ngFor="let asiento of grupo.asientos"
+                 [class.ocupado]="asiento.ocupado"
+                 [class.seleccionado]="asientoSeleccionado?.id === asiento.id"
+                 (click)="seleccionarAsiento(asiento)">
+              {{ asiento.numero }}
+            </div>
+          </div>
+        </div>
+
+        <div class="asiento-leyenda">
+          <span class="leyenda-item"><span class="dot libre"></span> Libre</span>
+          <span class="leyenda-item"><span class="dot ocupado"></span> Ocupado</span>
+          <span class="leyenda-item"><span class="dot seleccionado"></span> Seleccionado</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón comprar -->
+    <div class="comprar-wrap" *ngIf="puedeComprar()">
+      <div class="divider"></div>
+      <button class="btn-comprar" (click)="irACheckout()">
+        Continuar con la compra →
+      </button>
+    </div>
+
+  </div>
+</div>

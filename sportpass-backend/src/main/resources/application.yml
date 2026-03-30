@@ -21,3 +21,6 @@ server:
 jwt:
   secret: sportpass_clave_secreta_muy_larga_minimo_32_caracteres
   expiration: 86400000
+
+mercadopago:
+  access-token: APP_USR-7446291660276413-032917-61cc3da6d03968dbf17e872d4e091a5b-3299829769

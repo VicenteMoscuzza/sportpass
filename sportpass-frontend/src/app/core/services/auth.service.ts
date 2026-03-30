@@ -14,7 +14,7 @@ export interface UserInfo {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = '/api/auth';
   private currentUser = new BehaviorSubject<UserInfo | null>(this.loadUser());
 
   constructor(private http: HttpClient) {}

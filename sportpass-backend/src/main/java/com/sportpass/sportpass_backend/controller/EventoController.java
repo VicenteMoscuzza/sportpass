@@ -2,6 +2,7 @@ package com.sportpass.sportpass_backend.controller;
 
 import com.sportpass.sportpass_backend.dto.EventoDTO;
 import com.sportpass.sportpass_backend.service.EventoService;
+import com.sportpass.sportpass_backend.service.AsientoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 public class EventoController {
 
     private final EventoService eventoService;
+    private final AsientoService asientoService;
 
     @GetMapping
     public ResponseEntity<List<EventoDTO.EventoResumen>> getProximosEventos() {
@@ -22,5 +24,12 @@ public class EventoController {
     @GetMapping("/{id}")
     public ResponseEntity<EventoDTO.EventoDetalle> getEventoById(@PathVariable Long id) {
         return ResponseEntity.ok(eventoService.getEventoById(id));
+    }
+
+    @GetMapping("/{eventoId}/zonas/{zonaId}/asientos")
+    public ResponseEntity<List<EventoDTO.AsientoInfo>> getAsientos(
+            @PathVariable Long eventoId,
+            @PathVariable Long zonaId) {
+        return ResponseEntity.ok(asientoService.getAsientosPorZona(zonaId, eventoId));
     }
 }

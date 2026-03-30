@@ -1,0 +1,115 @@
+<div class="layout">
+
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-name">SportPass</span>
+      </div>
+      <button class="btn-back" (click)="irAInicio()" *ngIf="!compraRealizada">
+        ← Cancelar
+      </button>
+    </nav>
+  
+    <div class="loading-wrap" *ngIf="loading">
+      <div class="spinner"></div>
+    </div>
+  
+    <!-- Checkout -->
+    <div class="content" *ngIf="!loading && !compraRealizada && evento && zona">
+  
+      <div class="checkout-header">
+        <p class="step-label">Confirmá tu compra</p>
+        <h1 class="titulo">Resumen</h1>
+      </div>
+  
+      <div class="resumen-card">
+  
+        <div class="resumen-row">
+          <span class="resumen-label">Evento</span>
+          <span class="resumen-valor">{{ evento.nombre }}</span>
+        </div>
+  
+        <div class="resumen-row">
+          <span class="resumen-label">Fecha</span>
+          <span class="resumen-valor">
+            {{ formatFecha(evento.fecha) }} · {{ formatHora(evento.fecha) }}hs
+          </span>
+        </div>
+  
+        <div class="resumen-row">
+          <span class="resumen-label">Estadio</span>
+          <span class="resumen-valor">{{ evento.estadioNombre }}, {{ evento.estadioCiudad }}</span>
+        </div>
+  
+        <div class="resumen-row">
+          <span class="resumen-label">Zona</span>
+          <span class="resumen-valor">{{ zona.zonaNombre }}</span>
+        </div>
+  
+        <div class="resumen-row" *ngIf="asientoId">
+          <span class="resumen-label">Asiento</span>
+          <span class="resumen-valor">Palco · Asiento seleccionado</span>
+        </div>
+  
+        <div class="resumen-row" *ngIf="!asientoId">
+          <span class="resumen-label">Cantidad</span>
+          <span class="resumen-valor">{{ cantidad }} {{ cantidad === 1 ? 'entrada' : 'entradas' }}</span>
+        </div>
+  
+        <div class="resumen-divider"></div>
+  
+        <div class="resumen-row total">
+          <span class="resumen-label">Total</span>
+          <span class="resumen-total">{{ formatPrecio(total) }}</span>
+        </div>
+  
+      </div>
+  
+      <div class="checkout-actions">
+        <button class="btn-comprar" (click)="confirmarCompra()" [disabled]="procesando">
+          <span *ngIf="!procesando">Confirmar compra →</span>
+          <span *ngIf="procesando" class="loading-dots">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+        <p class="checkout-nota">
+          Por ahora la compra se procesa directamente. Próximamente integración con MercadoPago.
+        </p>
+      </div>
+  
+    </div>
+  
+    <!-- Compra exitosa -->
+    <div class="content success" *ngIf="compraRealizada">
+  
+      <div class="success-icon">✓</div>
+      <h1 class="success-titulo">¡Compra realizada!</h1>
+      <p class="success-sub">Tus entradas fueron generadas correctamente.</p>
+  
+      <div class="entradas-lista">
+        <div class="entrada-card" *ngFor="let entrada of compraRealizada.entradas; let i = index">
+          <div class="entrada-top">
+            <span class="entrada-zona">{{ entrada.zonaNombre }}</span>
+            <span class="entrada-num">#{{ i + 1 }}</span>
+          </div>
+          <div class="entrada-detalle" *ngIf="entrada.fila !== 'GENERAL'">
+            Palco {{ entrada.fila }} · Asiento {{ entrada.numero }}
+          </div>
+          <div class="entrada-detalle" *ngIf="entrada.fila === 'GENERAL'">
+            Entrada general
+          </div>
+          <div class="entrada-qr">{{ entrada.codigoQr }}</div>
+        </div>
+      </div>
+  
+      <div class="success-total">
+        Total pagado: {{ formatPrecio(compraRealizada.total) }}
+      </div>
+  
+      <button class="btn-inicio" (click)="irAInicio()">
+        Volver al inicio
+      </button>
+  
+    </div>
+  
+  </div>

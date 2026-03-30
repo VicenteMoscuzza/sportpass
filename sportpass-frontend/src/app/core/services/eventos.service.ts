@@ -34,9 +34,16 @@ export interface EventoDetalle {
   zonas: ZonaInfo[];
 }
 
+export interface AsientoInfo {
+  id: number;
+  fila: string;
+  numero: number;
+  ocupado: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EventosService {
-  private apiUrl = 'http://localhost:8080/api/eventos';
+  private apiUrl = '/api/eventos';
 
   constructor(private http: HttpClient) {}
 
@@ -46,6 +53,10 @@ export class EventosService {
 
   getEventoById(id: number): Observable<EventoDetalle> {
     return this.http.get<EventoDetalle>(`${this.apiUrl}/${id}`);
+  }
+
+  getAsientosPorZona(eventoId: number, zonaId: number): Observable<AsientoInfo[]> {
+    return this.http.get<AsientoInfo[]>(`${this.apiUrl}/${eventoId}/zonas/${zonaId}/asientos`);
   }
 }
 

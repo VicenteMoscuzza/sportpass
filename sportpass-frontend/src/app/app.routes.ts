@@ -17,5 +17,10 @@ export const routes: Routes = [
     path: 'eventos',
     loadChildren: () => import('./features/eventos/eventos-module').then(m => m.EventosModule),
     canActivate: [authGuard]
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./features/checkout/checkout-module').then(m => m.CheckoutModule),
+    canActivate: [authGuard]
   }
 ];

@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/sportpass
-    username: postgres
-    password: newpassword
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,8 +19,8 @@ server:
   port: 8080
 
 jwt:
-  secret: sportpass_clave_secreta_muy_larga_minimo_32_caracteres
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 mercadopago:
-  access-token: APP_USR-7446291660276413-032917-61cc3da6d03968dbf17e872d4e091a5b-3299829769
+  access-token: ${MP_ACCESS_TOKEN}

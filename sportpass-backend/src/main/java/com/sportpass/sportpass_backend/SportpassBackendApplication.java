@@ -2,8 +2,11 @@ package com.sportpass.sportpass_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = "com.sportpass.sportpass_backend")
+@EnableAsync
+
 public class SportpassBackendApplication {
 
 	public static void main(String[] args) {

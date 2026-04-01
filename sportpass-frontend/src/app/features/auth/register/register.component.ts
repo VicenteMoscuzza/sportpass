@@ -58,7 +58,7 @@ export class RegisterComponent {
     const { nombre, email, password } = this.form.value;
 
     this.authService.register(email, password, nombre).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['/']),
       error: () => {
         this.error = 'Error al registrarse. El email puede estar en uso.';
         this.loading = false;

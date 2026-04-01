@@ -18,6 +18,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthDTO.AuthResponse register(AuthDTO.RegisterRequest request) {
         if (usuarioRepository.existsByEmail(request.getEmail())) {
@@ -31,6 +32,8 @@ public class AuthService {
         usuario.setRol(Usuario.Rol.USER);
 
         usuarioRepository.save(usuario);
+
+        emailService.enviarBienvenida(usuario.getEmail(), usuario.getNombre());
 
         String token = jwtUtil.generateToken(usuario.getEmail(), usuario.getRol().name());
         return new AuthDTO.AuthResponse(token, usuario.getEmail(), usuario.getNombre(), usuario.getRol().name());

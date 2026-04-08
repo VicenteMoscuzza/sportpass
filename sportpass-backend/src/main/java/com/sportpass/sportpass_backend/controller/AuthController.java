@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.sportpass.sportpass_backend.repository.UsuarioRepository;
+import com.sportpass.sportpass_backend.model.Usuario;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -14,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-
+    private final UsuarioRepository usuarioRepository;
+    
     @PostMapping("/register")
     public ResponseEntity<AuthDTO.UserInfoResponse> register(
             @RequestBody AuthDTO.RegisterRequest request,
@@ -49,5 +53,17 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setMaxAge(86400);
         response.addCookie(cookie);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthDTO.UserInfoResponse> me() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return ResponseEntity.ok(new AuthDTO.UserInfoResponse(
+                usuario.getEmail(),
+                usuario.getNombre(),
+                usuario.getRol().name()
+        ));
     }
 }

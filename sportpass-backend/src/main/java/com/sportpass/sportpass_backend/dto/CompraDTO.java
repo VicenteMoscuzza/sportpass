@@ -1,6 +1,7 @@
 package com.sportpass.sportpass_backend.dto;
 
 import lombok.Data;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CompraDTO {
@@ -40,5 +41,27 @@ public class CompraDTO {
     public static class PagoResponse {
         private String checkoutUrl;
         private String preferenceId;
+    }
+
+    /** Compra + entradas para panel admin (GET /api/admin/compras). */
+    @Data
+    public static class CompraAdminResumen {
+        private Long id;
+        private String usuarioEmail;
+        private String usuarioNombre;
+        private LocalDateTime fecha;
+        private String estado;
+        private Double total;
+        private List<EntradaAdminResumen> entradas;
+    }
+
+    @Data
+    public static class EntradaAdminResumen {
+        private Long id;
+        private String eventoNombre;
+        private String zonaNombre;
+        private String fila;
+        private Integer numero;
+        private String codigoQr;
     }
 }

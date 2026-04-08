@@ -3,13 +3,14 @@ package com.sportpass.sportpass_backend.service;
 import com.sportpass.sportpass_backend.dto.CompraDTO;
 import com.sportpass.sportpass_backend.model.*;
 import com.sportpass.sportpass_backend.repository.*;
-import com.sportpass.sportpass_backend.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Sort;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,5 +108,42 @@ public class CompraService {
         }).toList());
 
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    public List<CompraDTO.CompraAdminResumen> listarComprasAdmin() {
+        return compraRepository.findAll(Sort.by(Sort.Direction.DESC, "fecha")).stream()
+                .map(this::toCompraAdminResumen)
+                .toList();
+    }
+
+    private CompraDTO.CompraAdminResumen toCompraAdminResumen(Compra c) {
+        CompraDTO.CompraAdminResumen dto = new CompraDTO.CompraAdminResumen();
+        dto.setId(c.getId());
+        dto.setUsuarioEmail(c.getUsuario().getEmail());
+        dto.setUsuarioNombre(c.getUsuario().getNombre());
+        dto.setFecha(c.getFecha());
+        dto.setEstado(c.getEstado() != null ? c.getEstado().name() : null);
+        dto.setTotal(c.getTotal() != null ? c.getTotal().doubleValue() : null);
+
+        List<Entrada> entradas = c.getEntradas();
+        if (entradas == null || entradas.isEmpty()) {
+            dto.setEntradas(Collections.emptyList());
+            return dto;
+        }
+
+        dto.setEntradas(entradas.stream().map(this::toEntradaAdminResumen).toList());
+        return dto;
+    }
+
+    private CompraDTO.EntradaAdminResumen toEntradaAdminResumen(Entrada e) {
+        CompraDTO.EntradaAdminResumen dto = new CompraDTO.EntradaAdminResumen();
+        dto.setId(e.getId());
+        dto.setEventoNombre(e.getEventoZona().getEvento().getNombre());
+        dto.setZonaNombre(e.getEventoZona().getZona().getNombre());
+        dto.setFila(e.getAsiento().getFila());
+        dto.setNumero(e.getAsiento().getNumero());
+        dto.setCodigoQr(e.getCodigoQr());
+        return dto;
     }
 }

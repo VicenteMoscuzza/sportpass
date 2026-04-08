@@ -47,4 +47,28 @@ public class EventoDTO {
         private Integer numero;
         private Boolean ocupado;
     }
+
+    @Data
+    public static class EventoCreateRequest {
+        private String nombre;
+        private String descripcion;
+        private LocalDateTime fecha;
+        private Long estadioId;
+        private List<ZonaPrecios> zonaPrecios;
+    
+        @Data
+        public static class ZonaPrecios {
+            private Long zonaId;
+            private Double precio;
+            private Integer capacidadDisponible;
+        }
+    }
+
+    @Data
+    public static class EventoUpdateRequest {
+        private String nombre;
+        private String descripcion;
+        private LocalDateTime fecha;
+        private String estado;
+    }
 }

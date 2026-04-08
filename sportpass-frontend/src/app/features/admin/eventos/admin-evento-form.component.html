@@ -1,0 +1,85 @@
+<div class="layout">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-name">SportPass Admin</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn" (click)="cancelar()">← Volver</button>
+      <button class="btn primary" [disabled]="saving" (click)="guardar()">
+        {{ saving ? 'Guardando...' : 'Guardar' }}
+      </button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="page-header">
+      <p class="page-label">Administración</p>
+      <h1 class="page-titulo">{{ titulo() }}</h1>
+    </div>
+
+    <div *ngIf="error" class="alert">{{ error }}</div>
+    <div *ngIf="loading" class="empty">Cargando...</div>
+
+    <form *ngIf="!loading" class="card" [formGroup]="form" (ngSubmit)="guardar()">
+      <div class="grid">
+        <div class="field">
+          <label>Nombre</label>
+          <input class="input" type="text" formControlName="nombre" placeholder="Ej: Boca vs River" />
+          <small class="hint" *ngIf="form.get('nombre')?.touched && form.get('nombre')?.invalid">
+            Ingresá un nombre válido.
+          </small>
+        </div>
+
+        <div class="field">
+          <label>Fecha y hora</label>
+          <input class="input" type="datetime-local" formControlName="fecha" />
+          <small class="hint" *ngIf="form.get('fecha')?.touched && form.get('fecha')?.invalid">
+            Seleccioná fecha y hora.
+          </small>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Descripción</label>
+        <textarea class="input" rows="3" formControlName="descripcion" placeholder="Descripción del evento"></textarea>
+      </div>
+
+      <div class="field" [class.disabled]="modo === 'editar'">
+        <label>Estadio</label>
+        <select class="input" formControlName="estadioId" (change)="onEstadioChange()" [disabled]="modo === 'editar'">
+          <option [ngValue]="null">Seleccioná un estadio</option>
+          <option *ngFor="let e of estadios" [ngValue]="e.id">{{ e.nombre }} ({{ e.ciudad }})</option>
+        </select>
+        <small class="hint" *ngIf="modo === 'editar'">
+          En edición solo se actualizan nombre/descripcion/fecha (no estadio/zonas).
+        </small>
+      </div>
+
+      <div class="zonas" *ngIf="modo === 'crear'">
+        <h3>Zonas y precios</h3>
+        <div class="empty" *ngIf="zonas.length === 0">
+          Elegí un estadio para cargar las zonas.
+        </div>
+
+        <div class="zona-row header" *ngIf="zonas.length > 0">
+          <div>Zona</div>
+          <div>Precio</div>
+          <div>Capacidad</div>
+        </div>
+
+        <div formArrayName="zonaPrecios" *ngIf="zonas.length > 0">
+          <div class="zona-row" *ngFor="let z of zonaPrecios.controls; let i = index" [formGroupName]="i">
+            <div class="zona-name">{{ z.get('zonaNombre')?.value }}</div>
+            <input class="input" type="number" formControlName="precio" min="0" />
+            <input class="input" type="number" formControlName="capacidadDisponible" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button class="btn" type="button" (click)="cancelar()">Cancelar</button>
+        <button class="btn primary" type="submit" [disabled]="saving">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

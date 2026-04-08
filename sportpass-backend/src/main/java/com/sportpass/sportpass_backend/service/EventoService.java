@@ -4,6 +4,9 @@ import com.sportpass.sportpass_backend.dto.EventoDTO;
 import com.sportpass.sportpass_backend.model.Evento;
 import com.sportpass.sportpass_backend.repository.EventoRepository;
 import com.sportpass.sportpass_backend.repository.EventoZonaRepository;
+import com.sportpass.sportpass_backend.model.*;
+import com.sportpass.sportpass_backend.repository.*;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -15,6 +18,8 @@ public class EventoService {
 
     private final EventoRepository eventoRepository;
     private final EventoZonaRepository eventoZonaRepository;
+    private final EstadioRepository estadioRepository;
+    private final ZonaRepository zonaRepository;
 
     public List<EventoDTO.EventoResumen> getProximosEventos() {
         List<Evento> eventos = eventoRepository
@@ -76,6 +81,52 @@ public class EventoService {
 
         dto.setZonas(zonas);
         return dto;
+    }
+
+    public EventoDTO.EventoDetalle crearEvento(EventoDTO.EventoCreateRequest request) {
+        Estadio estadio = estadioRepository.findById(request.getEstadioId())
+                .orElseThrow(() -> new RuntimeException("Estadio no encontrado"));
+
+        Evento evento = new Evento();
+        evento.setNombre(request.getNombre());
+        evento.setDescripcion(request.getDescripcion());
+        evento.setFecha(request.getFecha());
+        evento.setEstadio(estadio);
+        evento.setEstado(Evento.Estado.ACTIVO);
+        evento = eventoRepository.save(evento);
+
+        for (EventoDTO.EventoCreateRequest.ZonaPrecios zp : request.getZonaPrecios()) {
+            Zona zona = zonaRepository.findById(zp.getZonaId())
+                    .orElseThrow(() -> new RuntimeException("Zona no encontrada"));
+            EventoZona eventoZona = new EventoZona();
+            eventoZona.setEvento(evento);
+            eventoZona.setZona(zona);
+            eventoZona.setPrecio(BigDecimal.valueOf(zp.getPrecio()));
+            eventoZona.setCapacidadDisponible(zp.getCapacidadDisponible());
+            eventoZonaRepository.save(eventoZona);
+        }
+
+        return getEventoById(evento.getId());
+    }
+
+    public EventoDTO.EventoDetalle actualizarEvento(Long id, EventoDTO.EventoUpdateRequest request) {
+        Evento evento = eventoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+
+        if (request.getNombre() != null) evento.setNombre(request.getNombre());
+        if (request.getDescripcion() != null) evento.setDescripcion(request.getDescripcion());
+        if (request.getFecha() != null) evento.setFecha(request.getFecha());
+        if (request.getEstado() != null) evento.setEstado(Evento.Estado.valueOf(request.getEstado()));
+
+        eventoRepository.save(evento);
+        return getEventoById(evento.getId());
+    }
+
+    public void eliminarEvento(Long id) {
+        Evento evento = eventoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+        evento.setEstado(Evento.Estado.CANCELADO);
+        eventoRepository.save(evento);
     }
 }
 

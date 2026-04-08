@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { EventosService, Evento } from '../../../core/services/eventos.service';
@@ -7,12 +7,13 @@ import { EventosService, Evento } from '../../../core/services/eventos.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   nombre = '';
+  esAdmin = false;
   eventosPorFecha: { fecha: string, eventos: Evento[] }[] = [];
   loading = true;
 
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.nombre = this.authService.getNombre();
+    this.esAdmin = this.authService.isAdmin();
     this.cargarEventos();
   }
 

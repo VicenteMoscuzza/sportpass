@@ -44,4 +44,13 @@ public class AuthDTO {
             this.rol = rol;
         }
     }
+
+    /** Listado de usuarios para panel admin (GET /api/admin/usuarios). */
+    @Data
+    public static class UsuarioAdminResumen {
+        private Long id;
+        private String email;
+        private String nombre;
+        private String rol;
+    }
 }

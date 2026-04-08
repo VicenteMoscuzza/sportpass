@@ -9,6 +9,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Sort;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +52,21 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(usuario.getEmail(), usuario.getRol().name());
         return new AuthDTO.AuthResponse(token, usuario.getEmail(), usuario.getNombre(), usuario.getRol().name());
+    }
+
+    @Transactional(readOnly = true)
+    public List<AuthDTO.UsuarioAdminResumen> listarUsuariosAdmin() {
+        return usuarioRepository.findAll(Sort.by("email")).stream()
+                .map(this::toUsuarioAdminResumen)
+                .toList();
+    }
+
+    private AuthDTO.UsuarioAdminResumen toUsuarioAdminResumen(Usuario u) {
+        AuthDTO.UsuarioAdminResumen dto = new AuthDTO.UsuarioAdminResumen();
+        dto.setId(u.getId());
+        dto.setEmail(u.getEmail());
+        dto.setNombre(u.getNombre());
+        dto.setRol(u.getRol().name());
+        return dto;
     }
 }

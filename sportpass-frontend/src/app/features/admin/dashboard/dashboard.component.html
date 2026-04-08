@@ -1,0 +1,34 @@
+<div class="layout">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-name">SportPass</span>
+      </div>
+      <button class="btn-back" (click)="volver()">← Volver</button>
+    </nav>
+  
+    <div class="content">
+      <div class="page-header">
+        <p class="page-label">Administración</p>
+        <h1 class="page-titulo">Panel de control</h1>
+      </div>
+  
+      <div class="cards-grid">
+        <div class="admin-card" routerLink="/admin/eventos">
+          <span class="card-icon">🏟️</span>
+          <h3>Gestionar eventos</h3>
+          <p>Crear, editar y cancelar eventos</p>
+        </div>
+        <div class="admin-card" routerLink="/admin/usuarios">
+          <span class="card-icon">👥</span>
+          <h3>Usuarios</h3>
+          <p>Ver y gestionar usuarios registrados</p>
+        </div>
+        <div class="admin-card" routerLink="/admin/compras">
+          <span class="card-icon">🎟️</span>
+          <h3>Compras</h3>
+          <p>Ver historial de compras y entradas</p>
+        </div>
+      </div>
+    </div>
+  </div>

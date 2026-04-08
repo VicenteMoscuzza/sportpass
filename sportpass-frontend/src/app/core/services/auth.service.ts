@@ -68,4 +68,7 @@ export class AuthService {
   isLoggedIn(): Observable<UserInfo | null> {
     return this.currentUser.asObservable();
   }
+  isAdmin(): boolean {
+    return this.currentUser.getValue()?.rol === 'ADMIN';
+  }
 }

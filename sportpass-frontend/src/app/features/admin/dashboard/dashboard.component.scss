@@ -1,0 +1,104 @@
+.layout {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+  
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .brand-icon { font-size: 20px; color: var(--accent); }
+    .brand-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  }
+  
+  .btn-back {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    &:hover { border-color: var(--text-muted); color: var(--text); }
+  }
+  
+  .content {
+    padding: 56px 64px 80px;
+  }
+  
+  .page-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  
+  .page-titulo {
+    font-size: 36px;
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+  
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  
+  .admin-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  
+    &:hover {
+      border-color: #333;
+      background: #161616;
+    }
+  
+    .card-icon { font-size: 28px; }
+  
+    h3 {
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0;
+    }
+  
+    p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .content { padding: 32px 20px 60px; }
+    .navbar { padding: 20px; }
+  }

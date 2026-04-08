@@ -1,0 +1,176 @@
+.layout {
+  min-height: 100vh;
+  background: #0b1020;
+  color: #e9ecf5;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(11, 16, 32, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 18px;
+}
+
+.page-label {
+  margin: 0;
+  opacity: 0.7;
+}
+
+.page-titulo {
+  margin: 6px 0 18px 0;
+  font-size: 28px;
+}
+
+.alert {
+  margin: 10px 0 14px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(244, 67, 54, 0.14);
+  border: 1px solid rgba(244, 67, 54, 0.35);
+}
+
+.empty {
+  padding: 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  opacity: 0.95;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e9ecf5;
+  outline: none;
+}
+
+.input:focus {
+  border-color: rgba(46, 125, 255, 0.5);
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.hint {
+  display: block;
+  margin-top: 6px;
+  opacity: 0.75;
+  font-size: 12px;
+}
+
+.disabled {
+  opacity: 0.65;
+}
+
+.zonas {
+  margin-top: 14px;
+}
+
+.zonas h3 {
+  margin: 8px 0 10px 0;
+  font-size: 16px;
+}
+
+.zona-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.zona-row.header {
+  padding: 10px 0 8px 0;
+  font-weight: 700;
+  opacity: 0.9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zona-name {
+  font-weight: 600;
+}
+
+.footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e9ecf5;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn.primary {
+  background: rgba(46, 125, 255, 0.22);
+  border-color: rgba(46, 125, 255, 0.35);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .zona-row {
+    grid-template-columns: 1fr;
+  }
+}

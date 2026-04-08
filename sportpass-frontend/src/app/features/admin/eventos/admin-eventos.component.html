@@ -1,0 +1,52 @@
+<div class="layout">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-name">SportPass Admin</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn" (click)="volver()">← Panel</button>
+      <button class="btn primary" (click)="nuevo()">+ Nuevo evento</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="page-header">
+      <p class="page-label">Administración</p>
+      <h1 class="page-titulo">Eventos</h1>
+    </div>
+
+    <div *ngIf="error" class="alert">{{ error }}</div>
+
+    <div *ngIf="loading" class="empty">Cargando...</div>
+
+    <div *ngIf="!loading && eventos.length === 0" class="empty">
+      No hay eventos para mostrar.
+    </div>
+
+    <div class="table" *ngIf="!loading && eventos.length > 0">
+      <div class="row header">
+        <div>Evento</div>
+        <div>Fecha</div>
+        <div>Estadio</div>
+        <div>Estado</div>
+        <div class="actions">Acciones</div>
+      </div>
+
+      <div class="row" *ngFor="let e of eventos">
+        <div class="main">
+          <div class="title">{{ e.nombre }}</div>
+          <div class="sub">{{ e.descripcion }}</div>
+        </div>
+        <div>{{ formatFechaHora(e.fecha) }}</div>
+        <div>{{ e.estadioNombre }} ({{ e.estadioCiudad }})</div>
+        <div>
+          <span class="badge" [class.cancelado]="e.estado === 'CANCELADO'">{{ e.estado }}</span>
+        </div>
+        <div class="actions">
+          <button class="btn small" (click)="editar(e.id)">Editar</button>
+          <button class="btn small danger" (click)="eliminar(e.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
